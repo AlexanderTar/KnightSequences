@@ -65,6 +65,18 @@ int main(int argc, char** argv)
             return 1;
     }
     
+    if (sequenceLength <= 0)
+    {
+        std::cerr << "Sequence length must be positive\n";
+        return 1;
+    }
+    
+    if (numVowelsAllowed < 0)
+    {
+        std::cerr << "Number of allowed vowels must be non-negative\n";
+        return 1;
+    }
+    
     auto t1 = std::chrono::high_resolution_clock::now();
     size_t val = pf->countAllPaths(sequenceLength, numVowelsAllowed);
     auto t2 = std::chrono::high_resolution_clock::now();
