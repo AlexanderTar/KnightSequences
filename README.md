@@ -12,4 +12,6 @@ in the root directory of the project. This will create build files for default b
     
 To run project find `pathfinder.app` executable and run it with following command-line parameters
 
-    ./pathfinder.app MODE SEQUENCE-LENGTH NUM-VOWELS-ALLOWED
+    ./pathfinder.app -m MODE -l SEQUENCE-LENGTH -v NUM-VOWELS-ALLOWED
+    
+You can optionally specify `--trace` flag to print out performance information. Default values for command-line options are: sequence length - 17, number of vowels allowed - 2, default algorithm - DP.
