@@ -6,7 +6,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 project(knight_sequences)
 
-include_directories(./src)
+include_directories(./src ./app)
 
 add_subdirectory(src)
 add_subdirectory(app)

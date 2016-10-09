@@ -5,6 +5,8 @@
 #include <dppathfinder.hpp>
 #include <memopathfinder.hpp>
 
+#include <inputparser.hpp>
+
 typedef enum {
     RECURSIVE = 1,
     MEMO = 2,
@@ -13,18 +15,36 @@ typedef enum {
 
 int main(int argc, char** argv)
 {
-    if (argc < 4) {
-        std::cerr << "Usage: " << argv[0] << "MODE LENGTH NUM_VOWELS_ALLOWED" << std::endl;
-        return 1;
-    }
-    
     std::shared_ptr<PathFinder::PathFinder> pf;
-    int mode, sequenceLength, numVowelsAllowed;
+    // default values are length = 17, number of vowels = 2, algoritm - DP
+    int mode = 3, sequenceLength = 17, numVowelsAllowed = 2;
+    bool trace;
     std::string modeText;
     
-    mode = atoi(argv[1]);
-    sequenceLength = atoi(argv[2]);
-    numVowelsAllowed = atoi(argv[3]);
+    InputParser ip(argc, argv);
+    
+    if (ip.cmdOptionExists("-h"))
+    {
+        std::cout << "Usage: " << argv[0] << "-m MODE -l LENGTH -v NUM_VOWELS_ALLOWED [--trace]\n";
+        return 0;
+    }
+    
+    trace = ip.cmdOptionExists("--trace");
+    
+    if (ip.cmdOptionExists("-m"))
+    {
+        mode = ip.getCmdOption<int>("-m");
+    }
+    
+    if (ip.cmdOptionExists("-l"))
+    {
+        sequenceLength = ip.getCmdOption<int>("-l");
+    }
+    
+    if (ip.cmdOptionExists("-v"))
+    {
+        numVowelsAllowed = ip.getCmdOption<int>("-v");
+    }
     
     switch (mode)
     {
@@ -49,15 +69,18 @@ int main(int argc, char** argv)
     size_t val = pf->countAllPaths(sequenceLength, numVowelsAllowed);
     auto t2 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> ms = t2 - t1;
-    std::cout << "Calculated number of possible sequences of length "
-              << sequenceLength
-              << " with "
-              << numVowelsAllowed
-              << " vowels allowed using "
-              << modeText
-              << " algorithm. Result: "
-              << val
-              << " , took: "
-              << ms.count()
-              << " ms.\n";
+    std::cout << val << std::endl;
+    if (trace)
+        std::cout << "Calculated number of possible sequences of length "
+                  << sequenceLength
+                  << " with "
+                  << numVowelsAllowed
+                  << " vowels allowed using "
+                  << modeText
+                  << " algorithm. Result: "
+                  << val
+                  << " , took: "
+                  << ms.count()
+                  << " ms.\n";
+    return 0;
 }

@@ -1,4 +1,8 @@
-set (SRC main.cpp)
+set (SRC 
+	main.cpp
+	inputparser.hpp
+    util.hpp
+)
 
-add_executable(pathfinder.app main.cpp)
+add_executable(pathfinder.app ${SRC})
 target_link_libraries(pathfinder.app pathfinderlib)
